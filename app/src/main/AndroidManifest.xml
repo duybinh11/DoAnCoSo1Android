@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+        tools:targetApi="31">
+        <activity
+            android:name=".ActivityUser.DetailState"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityUser.DetailCast"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityUser.ItemSelected"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityAdmin.AddItem"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityAdmin.AdminMainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ActivityUser.MainActivityUser"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ActivityUser.ForgetPass"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityUser.CreateAccount"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityUser.Login"
+            android:exported="true" />
+    </application>
+
+</manifest>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    android:layout_marginTop="5dp"
+    app:cardCornerRadius="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="180dp"
+    app:cardElevation="4dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:weightSum="10"
+        android:layout_margin="7dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/img"
+            android:padding="5dp"
+
+            android:layout_width="match_parent"
+            android:layout_height="150dp"/>
+        <TextView
+            android:paddingHorizontal="5dp"
+            android:id="@+id/tvName"
+            android:textColor="@color/black"
+            android:textSize="27sp"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            android:text="Áo Teelab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TableLayout
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:paddingHorizontal="5dp"
+                    android:text="Giá : "
+                    android:textColor="@color/black"
+                    android:textSize="27sp" />
+                <TextView
+                    android:paddingHorizontal="5dp"
+                    android:id="@+id/tvCost"
+                    android:textColor="#DD1818"
+                    android:textSize="27sp"
+                    android:layout_marginTop="5dp"
+                    android:text="100k"
+                    android:layout_width="wrap_content"/>
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
