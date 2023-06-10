@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="#03A9F4"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivityUser.ItemSelected">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:background="@color/white"
+            app:cardCornerRadius="10dp">
+
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Thông Tin Sản Phẩm"
+            android:textColor="#FF5722"
+            android:textSize="25sp"
+            android:textStyle="bold|italic" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TableRow>
+
+                <TextView
+                    android:text="Tên Sản Phẩm     "
+                    android:textColor="@color/white"
+                    android:textSize="22sp" />
+
+                <EditText
+                    android:id="@+id/edtName"
+                    android:text="Áo Teelab"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="Giá Bán"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"  />
+
+                <EditText
+                    android:id="@+id/edtCost"
+                    android:text="17"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="Số Lượng"
+                    android:textColor="@color/white"
+                    android:textSize="22sp" />
+
+                <EditText
+                    android:id="@+id/edtSL"
+                    android:text="17"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+            </TableRow>
+        </TableLayout>
+        <Switch
+            android:id="@+id/aswitch"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:text="Flash Sale"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"/>
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/tvPercent"
+                    android:layout_height="wrap_content"
+                    android:text="Phần Trăm :         "
+                    android:textColor="@color/white"
+                    android:textSize="22sp" />
+
+                <EditText
+                    android:textColorHint="@color/white"
+                    android:backgroundTint="@color/white"
+                    android:inputType="number"
+                    android:id="@+id/edtPercent1"
+                    android:hint="Phần Trăm"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+            </TableRow>
+        </TableLayout>
+        <TableLayout
+            android:stretchColumns="1,2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow>
+                <TextView
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    android:text="Thời Gian Bắt Đầu  "
+                    android:id="@+id/tvStart"/>
+                <TextView
+                    android:textStyle="italic"
+                    android:textSize="20sp"
+                    android:textColor="#FF5722"
+                    android:text="time"
+                    android:id="@+id/tvTime"/>
+
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    android:text="Thời Gian kết Thúc"
+                    android:id="@+id/tvEnd"/>
+                <TextView
+                    android:textStyle="italic"
+                    android:textSize="20sp"
+                    android:textColor="#FF5722"
+                    android:text="time"
+                    android:id="@+id/tvTime1"/>
+            </TableRow>
+        </TableLayout>
+        <TableLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow>
+                <Button
+                    android:text="Xóa"
+                    android:id="@+id/btnDelete"/>
+                <Button
+                    android:text="Lưu"
+                    android:id="@+id/btnSave"/>
+
+                <Button
+                    android:text="Back"
+                    android:id="@+id/btnBack"/>
+            </TableRow>
+        </TableLayout>
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow>
+                <Button
+                    android:visibility="gone"
+                    android:text="Bật Flash Sale"
+                    android:id="@+id/btnOnFS"/>
+                <Button
+                    android:visibility="gone"
+                    android:text="Tắt Flash Sale"
+                    android:id="@+id/btnOffFS"/>
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+</LinearLayout>

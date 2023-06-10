@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -19,13 +18,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.bmshop.ActivityUser.ItemSelected;
-import com.example.bmshop.Adapter.BanChayAdapter;
+import com.example.bmshop.Adapter.GridAdapter;
 import com.example.bmshop.Adapter.ImageSlideAdapter;
 import com.example.bmshop.Adapter.NewAdapter;
 import com.example.bmshop.Interface.CallBackRecycleview;
+import com.example.bmshop.Model.FlashSale;
 import com.example.bmshop.Model.Item;
 import com.example.bmshop.R;
-import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,12 +41,10 @@ import java.util.List;
 import me.relex.circleindicator.CircleIndicator3;
 
 public class HomeFragment extends Fragment {
-    RecyclerView rccvBanChay,rccvNew;
-    List<Item> itemListNew;
+    RecyclerView rccvNew,rccvGrid;
+    List<Item> itemListNew,itemListFlash;
     ViewPager2 vp2;
     CircleIndicator3 circleIndicator3;
-    List<Item> itemListBanChay;
-    BanChayAdapter banChayAdapter;
     ImageSlideAdapter imageSlideAdapter;
     NewAdapter newAdapter;
     ProgressDialog progressDialog;
@@ -64,17 +61,17 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         anhXa(view);
-        initBanChay();
         initImageSlide();
         initItemNew();
+        initGrid();
     }
 
     private void anhXa(View view){
-        rccvBanChay = view.findViewById(R.id.rccvBanChay);
         rccvNew = view.findViewById(R.id.rccvNew);
-        itemListBanChay = new ArrayList<>();
+        rccvGrid = view.findViewById(R.id.rccvGrid);
         itemListNew = new ArrayList<>();
-        banChayAdapter = new BanChayAdapter(itemListBanChay);
+        itemListFlash = new ArrayList<>();
+        imageSlideAdapter = new ImageSlideAdapter(itemListFlash);
         newAdapter = new NewAdapter(itemListNew, new CallBackRecycleview() {
             @Override
             public void setDate(Item item) {
@@ -87,37 +84,61 @@ public class HomeFragment extends Fragment {
         progressDialog.setMessage("Đang Tải");
         vp2 = view.findViewById(R.id.vp2);
         circleIndicator3 = view.findViewById(R.id.indicator3);
-
         handler = new Handler();
     }
-    private void initBanChay(){
-        setDataBanChay();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
-        rccvBanChay.setAdapter(banChayAdapter);
-        rccvBanChay.setLayoutManager(linearLayoutManager);
-    }
-    private void setDataBanChay(){
+    private void getDataItemFlash(){
         progressDialog.show();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("List_item");
-        Query query = ref.orderByChild("sold").limitToFirst(5);
-        query.addValueEventListener(new ValueEventListener() {
+        DatabaseReference mData = FirebaseDatabase.getInstance().getReference("List_item");
+        mData.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                itemListBanChay.clear();
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    Item itemNew = postSnapshot.getValue(Item.class);
-                    itemListBanChay.add(0,itemNew);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                itemListFlash.clear();
+                for (DataSnapshot snapshot1 : snapshot.getChildren()){
+                    Item item = snapshot1.getValue(Item.class);
+                    setIsFS(item);
+                    if(item.getFlashSale().isIs()){
+                        itemListFlash.add(item);
+                    }
                 }
-                banChayAdapter.notifyDataSetChanged();
-                progressDialog.dismiss();
+                imageSlideAdapter.notifyDataSetChanged();
             }
+
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getContext(), "loi", Toast.LENGTH_SHORT).show();
+            public void onCancelled(@NonNull DatabaseError error) {
+                progressDialog.dismiss();
+                Toast.makeText(getContext(), "Loi", Toast.LENGTH_SHORT).show();
             }
         });
     }
-    private void setDataItemNew(){
+    private void setIsFS(Item item){
+        Date now = new Date();
+        Date end = formatDate(item.getFlashSale().getEnd());
+        if(now.getTime()-end.getTime()>0){
+            DatabaseReference mData = FirebaseDatabase.getInstance().getReference("List_item/"+item.getId());
+            mData.child("flashSale").child("is").setValue(false);
+        }
+        Date start = formatDate(item.getFlashSale().getStart());
+        if(now.getTime()-start.getTime()<0){
+            DatabaseReference mData = FirebaseDatabase.getInstance().getReference("List_item/"+item.getId());
+            mData.child("flashSale").child("is").setValue(false);
+        }
+        if(now.getTime() - end.getTime()<0 && now.getTime() - start.getTime()>0){
+            DatabaseReference mData = FirebaseDatabase.getInstance().getReference("List_item/"+item.getId());
+            mData.child("flashSale").child("is").setValue(true);
+        }
+    }
+    private Date formatDate(String time){
+        Date date = null;
+        String typeFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+        SimpleDateFormat format = new SimpleDateFormat(typeFormat);
+        try {
+            date = format.parse(time);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return date;
+    }
+    private void getDataItemNew(){
         progressDialog.show();
         DatabaseReference mData = FirebaseDatabase.getInstance().getReference("List_item");
         Query query = mData.orderByChild("date");
@@ -131,7 +152,6 @@ public class HomeFragment extends Fragment {
                 }
                 progressDialog.dismiss();
                 newAdapter.notifyDataSetChanged();
-                imageSlideAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -142,11 +162,12 @@ public class HomeFragment extends Fragment {
         });
     }
     private void initImageSlide(){
-        imageSlideAdapter = new ImageSlideAdapter(itemListNew);
+        getDataItemFlash();
+        imageSlideAdapter = new ImageSlideAdapter(itemListFlash);
         runnable = new Runnable() {
             @Override
             public void run() {
-                if (vp2.getCurrentItem() == itemListBanChay.size() - 1){
+                if (vp2.getCurrentItem() == itemListFlash.size() - 1){
                     vp2.setCurrentItem(0);
                 }else{
                     vp2.setCurrentItem(vp2.getCurrentItem()+1);
@@ -161,14 +182,20 @@ public class HomeFragment extends Fragment {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 handler.removeCallbacks(runnable);
-                handler.postDelayed(runnable,2000);
+                handler.postDelayed(runnable,4000);
             }
         });
     }
     private void initItemNew(){
-        setDataItemNew();
+        getDataItemNew();
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
         rccvNew.setLayoutManager(gridLayoutManager);
         rccvNew.setAdapter(newAdapter);
+    }
+    private void initGrid(){
+        GridAdapter gridAdapter = new GridAdapter();
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),3);
+        rccvGrid.setAdapter(gridAdapter);
+        rccvGrid.setLayoutManager(gridLayoutManager);
     }
 }

@@ -30,7 +30,8 @@ import java.util.Date;
 public class DetailState extends AppCompatActivity {
     FirebaseDatabase database;
     ImageView img;
-    TextView tvName,tvCost,tvSL,tvSold,tvDate,tvNameUser,tvAddress,tvPhone,tvDateBuy;
+    TextView tvName,tvCost,tvSL,tvSold,tvDate,tvNameUser,tvAddress,tvPhone,tvDateBuy,tvSLM,tvMoney,tvState;
+    TextView tvTitle,tvStart,tvStart1,tvEnd,tvEnd1,tvPercent,tvPercent1;
     Button btnHuy,btnBack,btnDaNhan;
     ItemState itemState;
     ProgressDialog progressDialog;
@@ -39,12 +40,14 @@ public class DetailState extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_state);
         anhXa();
-        setDataItem(itemState);
+        setDataItemHoaDon(itemState);
         getUser(itemState.getId());
         onClickHuy();
         onClickBack();
-        setVisibleBtn(itemState);
+        setVisibleBtnDanNHan(itemState);
+        setVisibleBtnHuy(itemState);
         onClickDaNhan();
+        setVisible(itemState.getItem());
     }
     private void anhXa(){
         img = findViewById(R.id.img);
@@ -60,12 +63,22 @@ public class DetailState extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         btnHuy = findViewById(R.id.btnHuy);
         btnDaNhan = findViewById(R.id.btnDaNhan);
+        tvMoney = findViewById(R.id.tvMoney);
+        tvSLM = findViewById(R.id.tvSlm);
+        tvState = findViewById(R.id.tvState);
         itemState = (ItemState) getIntent().getSerializableExtra("itemState");
         database = FirebaseDatabase.getInstance();
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Đang Tải");
+        tvTitle = findViewById(R.id.tvTitle);
+        tvStart = findViewById(R.id.tvStart);
+        tvStart1 = findViewById(R.id.tvStart1);
+        tvEnd = findViewById(R.id.tvEnd);
+        tvEnd1 = findViewById(R.id.tvEnd1);
+        tvPercent = findViewById(R.id.tvPercent);
+        tvPercent1 = findViewById(R.id.tvPercent1);
     }
-    private void setDataItem(ItemState itemState1){
+    private void setDataItemHoaDon(ItemState itemState1){
         if(itemState1 != null){
             Item item = itemState1.getItem();
             Glide.with(this).load(item.getImg()).into(img);
@@ -77,7 +90,19 @@ public class DetailState extends AppCompatActivity {
             tvSold.setText(String.valueOf(item.getSold()));
             String time1 = formatDate(itemState1.getDate());
             tvDateBuy.setText(time1);
-        }
+
+            tvSLM.setText(String.valueOf(itemState.getItem().getSlm()));
+
+            tvState.setText(itemState1.getState());
+
+            int money = 0;
+            if(item.getFlashSale().isIs()){
+                money = item.getSlm()*item.getCost()-item.getSlm()*item.getCost()*item.getFlashSale().getPercent()/100;
+            }else{
+                money= item.getSlm()*item.getCost();
+            }
+            tvMoney.setText(money+"k");
+       }
     }
     private void setDateUser(User user){
         if(user != null){
@@ -124,29 +149,26 @@ public class DetailState extends AppCompatActivity {
         btnHuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressDialog.show();
                 HuyItem(itemState);
+                progressDialog.dismiss();
+                Toast.makeText(DetailState.this, "Đã Hủy Đơn Hàng Thành Công", Toast.LENGTH_SHORT).show();
             }
         });
     }
     private void HuyItem(ItemState itemState){
-        if(itemState.getState().equals("Chuẩn Bị Hàng")){
-            progressDialog.show();
-            DatabaseReference mData = database.getReference("List_state/"+
-                    itemState.getId()+"/"+itemState.getIdVanChuyen()+"/"+itemState.getItem().getId());
-            mData.removeValue(new DatabaseReference.CompletionListener() {
-                @Override
-                public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                    progressDialog.dismiss();
-                    Toast.makeText(DetailState.this, "Đã Hủy Đơn Hàng Thành Công", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }else{
-            Toast.makeText(this, "Không Thể Huy", Toast.LENGTH_SHORT).show();
+        DatabaseReference mData = database.getReference("List_state/"+
+                itemState.getId()+"/"+itemState.getIdVanChuyen()+"/"+itemState.getItem().getId());
+        mData.removeValue();
+    }
+    private void setVisibleBtnDanNHan(ItemState itemState){
+        if(itemState.getState().equals("Đang Giao")){
+            btnDaNhan.setVisibility(View.VISIBLE);
         }
     }
-    private void setVisibleBtn(ItemState itemState){
-        if(itemState.getState().equals("Đang Đến Bạn")){
-            btnDaNhan.setVisibility(View.VISIBLE);
+    private void setVisibleBtnHuy(ItemState itemState){
+        if(itemState.getState().equals("Chuẩn Bị Hàng")){
+            btnHuy.setVisibility(View.VISIBLE);
         }
     }
     private void onClickDaNhan(){
@@ -165,9 +187,41 @@ public class DetailState extends AppCompatActivity {
         mData.setValue(itemState, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                HuyItem(itemState);
                 progressDialog.dismiss();
                 Toast.makeText(DetailState.this, "Cảm Ơn Bạn <3", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private void setVisible(Item item){
+        if(item.getFlashSale().isIs()){
+            String start = date1(item.getFlashSale().getStart());
+            String end = date1(item.getFlashSale().getEnd());
+
+            tvTitle.setVisibility(View.VISIBLE);
+            tvStart.setVisibility(View.VISIBLE);
+            tvEnd.setVisibility(View.VISIBLE);
+            tvPercent.setVisibility(View.VISIBLE);
+
+            tvStart1.setVisibility(View.VISIBLE);
+            tvEnd1.setVisibility(View.VISIBLE);
+            tvPercent1.setVisibility(View.VISIBLE);
+
+            tvStart1.setText(start);
+            tvEnd1.setText(end);
+            tvPercent1.setText(item.getFlashSale().getPercent()+"%");
+        }
+    }
+    private String date1(String date){
+        SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat output = new SimpleDateFormat("mm:HH  -  dd/MM/yy");
+        String time = "";
+        try {
+            Date date1 = input.parse(date);
+            time = output.format(date1).toString();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return time;
     }
 }

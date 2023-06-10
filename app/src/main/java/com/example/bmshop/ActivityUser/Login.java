@@ -36,7 +36,6 @@ public class Login extends AppCompatActivity {
         onClickTvNoAccount();
         onClicktvForget();
         onClickLogin();
-
     }
 
     private void anhXa() {

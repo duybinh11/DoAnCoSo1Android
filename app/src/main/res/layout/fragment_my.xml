@@ -1,14 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.core.widget.NestedScrollView
+    android:layout_margin="5dp"
+    android:orientation="vertical"
+    android:background="#03A9F4"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentUser.MyFragment">
-
-    <TextView
+    tools:context=".FragmentUser.MyFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="My" />
+        android:layout_height="match_parent">
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="8dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:paddingVertical="5dp"
+                android:src="@drawable/profile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </androidx.cardview.widget.CardView>
+        <TextView
+            android:textStyle="bold"
+            android:id="@+id/tvEmail"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="duybinh10012004@gmail.com"
+            android:textSize="24sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TableLayout
+            android:stretchColumns="0"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow>
+                <TextView
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:textColor="#00FF0A"
+                    android:text="Thông Tin Tài Khoản"/>
 
-</LinearLayout>
+            </TableRow>
+        </TableLayout>
+        <TableLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow>
+                <TextView
+                    android:textSize="25sp"
+                    android:textColor="@color/white"
+                    android:text="Họ Và Tên :    "/>
+                <TextView
+                    android:id="@+id/tvName"
+                    android:textSize="25sp"
+                    android:textColor="@color/white"
+                    android:text="Nguyễn Duy Bình"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:textSize="25sp"
+                    android:textColor="@color/white"
+                    android:text="Số Điện Thoại : "/>
+                <TextView
+                    android:id="@+id/tvPhone"
+                    android:textSize="25sp"
+                    android:textColor="@color/white"
+                    android:text="0982038250"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:textSize="25sp"
+                    android:textColor="@color/white"
+                    android:text="Địa Chỉ : "/>
+                <TextView
+                    android:id="@+id/tvAddress"
+                    android:textSize="25sp"
+                    android:textColor="@color/white"
+                    android:text="Huế"/>
+            </TableRow>
+        </TableLayout>
+        <TextView
+            android:textStyle="bold"
+            android:text="Lịch Sử Mua Hàng"
+            android:textSize="25sp"
+            android:textColor="#00FF0A"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rccvDaBan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>

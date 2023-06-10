@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:weightSum="10"
     android:layout_margin="5dp"
     android:orientation="vertical"
     android:background="#03A9F4"
@@ -9,31 +10,49 @@
     android:layout_height="match_parent"
     tools:context=".FragmentUser.CastFragment">
 
-    <TableLayout
-        android:stretchColumns="0"
+    <TextView
+        android:layout_weight="0.7"
+        android:layout_height="0dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TableRow>
-            <TextView
-                android:gravity="center_vertical"
-                android:textStyle="bold"
-                android:textSize="35sp"
-                android:textColor="@color/white"
-                android:text="Giỏ Hàng Của Bạn "/>
-            <Button
-                android:visibility="gone"
-                android:layout_gravity="center_vertical"
-                android:textColor="@color/white"
-                android:background="#0D28BF"
-                android:text="Mua"
-                android:id="@+id/btnBuy"/>
 
-        </TableRow>
-    </TableLayout>
+        android:gravity="center_vertical"
+        android:textStyle="bold"
+        android:textSize="35sp"
+        android:textColor="@color/white"
+        android:text="Giỏ Hàng Của Bạn "/>
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginVertical="10dp"
+        android:layout_weight="8.6"
         android:id="@+id/rccvCast"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"/>
+    <TableLayout
+        android:layout_weight="0.7"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <TableRow>
+            <TextView
+                android:id="@+id/tvTitle"
+                android:visibility="gone"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:text="Tiền : "/>
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tvMoney"
+                android:textColor="#FF5722"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:text="1000k"/>
+
+            <Button
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/btnBuy"
+                android:text="Mua" />
+        </TableRow>
+    </TableLayout>
+
 
 </LinearLayout>

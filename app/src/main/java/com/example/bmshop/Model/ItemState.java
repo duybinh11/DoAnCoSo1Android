@@ -8,6 +8,7 @@ public class ItemState implements Serializable {
     private String date;
     private Item item;
     private String state;
+
     public ItemState() {
     }
 

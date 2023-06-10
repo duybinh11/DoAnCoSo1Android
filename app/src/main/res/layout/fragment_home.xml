@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout android:background="#03A9F4"
-
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FragmentUser.HomeFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -28,30 +26,24 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="15dp"/>
-
-            <TextView
-                android:layout_margin="10dp"
-                android:textStyle="bold|italic"
-                android:textColor="@color/white"
-                android:text="Sản Phẩm Bán Chạy"
-                android:textSize="20dp"
-                android:layout_marginTop="5dp"
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="5dp"
                 android:layout_marginHorizontal="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="160dp">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:paddingHorizontal="10dp"
+                    android:id="@+id/rccvGrid"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </androidx.cardview.widget.CardView>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rccvBanChay"
-                android:layout_width="match_parent"
-
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp" />
             <TextView
                 android:textStyle="bold|italic"
                 android:textColor="@color/white"
                 android:text="Sản Phẩm Mới Nhất"
                 android:textSize="20dp"
-                android:layout_margin="10dp"
+                android:layout_marginHorizontal="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 

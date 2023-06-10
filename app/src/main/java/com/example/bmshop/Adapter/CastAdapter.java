@@ -1,12 +1,16 @@
 package com.example.bmshop.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +55,18 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastHolder>{
         Item item = itemList.get(position);
         holder.tvName.setText(item.getName());
         holder.tvSlm.setText(String.valueOf(item.getSlm()));
-        holder.tvMoney.setText(String.valueOf(item.getSlm()*item.getCost())+"k");
+        if(item.getFlashSale().isIs()){
+            @SuppressLint("ResourceType") Animation animation = AnimationUtils.loadAnimation(holder.itemView.getContext(), R.drawable.flash);
+            holder.imgFS.startAnimation(animation);
+            holder.imgFS.setVisibility(View.VISIBLE);
+        }
+        int money = 0;
+        if(item.getFlashSale().isIs()){
+            money = item.getCost()*item.getSlm()-item.getCost()*item.getSlm()*item.getFlashSale().getPercent()/100;
+        }else{
+            money = item.getCost()*item.getSlm();
+        }
+        holder.tvMoney.setText(money+"k");
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,12 +91,14 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastHolder>{
     public class CastHolder extends RecyclerView.ViewHolder{
         CheckBox cb;
         TextView tvName,tvMoney,tvSlm;
+        ImageView imgFS;
         public CastHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
             cb = itemView.findViewById(R.id.cb);
             tvMoney = itemView.findViewById(R.id.tvMoney);
             tvSlm = itemView.findViewById(R.id.tvSlm);
+            imgFS = itemView.findViewById(R.id.imgFS);
         }
     }
 

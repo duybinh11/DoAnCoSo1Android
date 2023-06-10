@@ -12,6 +12,18 @@
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".ActivityUser.TypeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityUser.Search"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityAdmin.ItemDetail"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityAdmin.DetailDonHang"
+            android:exported="false" />
+        <activity
             android:name=".ActivityUser.DetailState"
             android:exported="false" />
         <activity
@@ -25,15 +37,12 @@
             android:exported="false" />
         <activity
             android:name=".ActivityAdmin.AdminMainActivity"
-            android:exported="true" />
+            android:exported="true">
+
+        </activity>
         <activity
             android:name=".ActivityUser.MainActivityUser"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ActivityUser.ForgetPass"
@@ -43,7 +52,13 @@
             android:exported="false" />
         <activity
             android:name=".ActivityUser.Login"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

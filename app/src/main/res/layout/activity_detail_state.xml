@@ -34,14 +34,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:text="Thông Tin Sản Phẩm"
-            android:textColor="@color/white"
+            android:textColor="#5FF403"
             android:textSize="25sp"
             android:textStyle="bold|italic" />
 
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_height="wrap_content">
 
             <TableRow>
 
@@ -116,21 +115,20 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:text="Thông Tin Người Đặt"
-            android:textColor="@color/white"
+            android:textColor="#5FF403"
             android:textSize="25sp"
             android:textStyle="bold|italic" />
 
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_height="wrap_content">
 
             <TableRow>
 
                 <TextView
-                    android:text="Họ và Tên  "
+                    android:text="Họ và Tên             "
                     android:textColor="@color/white"
                     android:textSize="17sp" />
 
@@ -185,12 +183,136 @@
                     android:textSize="17sp" />
             </TableRow>
         </TableLayout>
+        <TextView
+            android:id="@+id/tvTitle"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Flash Sale"
+            android:textColor="#5FF403"
+            android:textSize="25sp"
+            android:textStyle="bold|italic" />
+
         <TableLayout
-            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tvStart"
+                    android:text="Bắt Đầu                "
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tvStart1"
+                    android:text="10/01/2004"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+            </TableRow>
+            <TableRow>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tvEnd"
+                    android:text="Kết Thúc "
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tvEnd1"
+                    android:text="10/01/2004"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tvPercent"
+                    android:text="Giảm Giá"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tvPercent1"
+                    android:text="50%"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+            </TableRow>
+
+
+        </TableLayout>
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Hóa Đơn"
+            android:textColor="#5FF403"
+            android:textSize="25sp"
+            android:textStyle="bold|italic" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow>
+
+                <TextView
+                    android:text="Trạng Thái            "
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tvState"
+                    android:text="Đang Giao"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+            </TableRow>
+            <TableRow>
+
+                <TextView
+                    android:text="Số Lượng "
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tvSlm"
+                    android:text="2"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="Thành Tiền"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tvMoney"
+                    android:text="1000k"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+            </TableRow>
+
+
+        </TableLayout>
+        <TableLayout
+            android:stretchColumns="*"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TableRow>
                 <Button
+                    android:visibility="gone"
                     android:id="@+id/btnHuy"
                     android:text="Hủy"/>
                 <Button

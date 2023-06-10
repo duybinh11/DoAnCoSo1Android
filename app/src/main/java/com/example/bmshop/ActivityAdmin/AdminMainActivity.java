@@ -15,6 +15,7 @@ import com.example.bmshop.Adapter.ViewPager2Adapter;
 import com.example.bmshop.FragmentUser.CastFragment;
 import com.example.bmshop.FragmentUser.HomeFragment;
 import com.example.bmshop.R;
+import com.example.bmshop.fragmentAdmin.DaBanFragment;
 import com.example.bmshop.fragmentAdmin.DonHangFragment;
 import com.example.bmshop.fragmentAdmin.ItemFragment;
 import com.google.android.material.tabs.TabLayout;
@@ -58,7 +59,11 @@ public class AdminMainActivity extends AppCompatActivity {
                     case 1 : {
                         tab.setText("Đơn Hàng");
                         break;
+                    } case 2 : {
+                        tab.setText("Đã Bán");
+                        break;
                     }
+
                 }
             }
         }).attach();
@@ -67,6 +72,7 @@ public class AdminMainActivity extends AppCompatActivity {
         fragmentList = new ArrayList<>();
         fragmentList.add(new ItemFragment());
         fragmentList.add(new DonHangFragment());
+        fragmentList.add(new DaBanFragment());
     }
     private void onClickImg(){
         imgPlus.setOnClickListener(new View.OnClickListener() {

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,9 +16,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.bmshop.ActivityUser.DetailCast;
 import com.example.bmshop.Adapter.CastAdapter;
 import com.example.bmshop.Interface.CallBackCast;
 import com.example.bmshop.Model.Item;
@@ -28,20 +30,20 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class CastFragment extends Fragment {
     FirebaseDatabase database;
     List<ItemState> itemStateList;
     ProgressDialog progressDialog;
+    TextView tvTitle,tvMoney;
     Button btnBuy;
     RecyclerView rccv;
     ItemCast itemCast;
@@ -60,11 +62,13 @@ public class CastFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         anhXa(view);
-        setData();
+        getDataCast();
         initAdapter();
         onClickBuy();
     }
     private void anhXa(View view){
+        tvTitle = view.findViewById(R.id.tvTitle);
+        tvMoney = view.findViewById(R.id.tvMoney);
         btnBuy = view.findViewById(R.id.btnBuy);
         rccv = view.findViewById(R.id.rccvCast);
         progressDialog = new ProgressDialog(getContext());
@@ -79,17 +83,17 @@ public class CastFragment extends Fragment {
             }
         });
     }
-    private void setData(){
+    private void getDataCast(){
         progressDialog.show();
         DatabaseReference mData = database.getReference("List_cast/"+idUser);
-        Query query = mData.orderByChild("date");
-        query.addValueEventListener(new ValueEventListener() {
+        mData.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 itemCast.getItemList().clear();
                 for(DataSnapshot snapshot1 : snapshot.getChildren()){
-                    Item item = snapshot1.getValue(Item.class);
-                    itemCast.getItemList().add(0,item);
+                    String id = snapshot1.getKey();
+                    int slm = snapshot1.child("slm").getValue(Integer.class);
+                    getItem(id,slm);
                 }
                 progressDialog.dismiss();
                 castAdapter.notifyDataSetChanged();
@@ -98,6 +102,23 @@ public class CastFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 progressDialog.dismiss();
+                Toast.makeText(getContext(), "loi", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void getItem(String id,int slm){
+        DatabaseReference mData = FirebaseDatabase.getInstance().getReference("List_item/"+id);
+        mData.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Item item = snapshot.getValue(Item.class);
+                item.setSlm(slm);
+                itemCast.getItemList().add(item);
+                castAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getContext(), "loi", Toast.LENGTH_SHORT).show();
             }
         });
@@ -123,22 +144,44 @@ public class CastFragment extends Fragment {
                 }
             }
         }
-        setVisibleBtn(itemStateList);
+        setVisible(itemStateList);
     }
     private String date(){
-        Date now = new Date();
-        String time = "";
+        String time = ""; // Khởi tạo biến để lưu trữ ngày giờ
+        Date now = new Date(); // Tạo một đối tượng Date đại diện cho ngày giờ hiện tại
+
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            time = now.toInstant().toString();
+            time = now.toInstant().toString(); // Chuyển đổi đối tượng Date thành Instant và lấy chuỗi biểu diễn của nó
+        } else {
+            // Xử lý trường hợp phiên bản Android thấp hơn Oreo
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+            time = sdf.format(now); // Định dạng ngày giờ và lưu vào biến time
         }
-        return time;
+        return time; // Trả về ngày giờ dưới dạng chuỗi
     }
-    private void setVisibleBtn(List<ItemState> itemStateList){
+    private void setVisible(List<ItemState> itemStateList){
         if(itemStateList.size() >0 ){
+            tvTitle.setVisibility(View.VISIBLE);
             btnBuy.setVisibility(View.VISIBLE);
+            tvMoney.setVisibility(View.VISIBLE);
+            tvMoney.setText(calculatorMoney(itemStateList)+"k");
         }else{
             btnBuy.setVisibility(View.GONE);
+            tvTitle.setVisibility(View.GONE);
+            tvMoney.setVisibility(View.GONE);
         }
+    }
+    private int calculatorMoney(List<ItemState> itemStateList){
+        int sum = 0;
+        for(int i=0;i<itemStateList.size();i++){
+            Item item = itemStateList.get(i).getItem();
+            if(item.getFlashSale().isIs()){
+                sum+= item.getSlm()*item.getCost()-item.getSlm()*item.getCost()*item.getFlashSale().getPercent()/100;
+            }else{
+                sum+= item.getSlm()*item.getCost();
+            }
+        }
+        return sum;
     }
     private void onClickBuy(){
         btnBuy.setOnClickListener(new View.OnClickListener() {
@@ -154,13 +197,29 @@ public class CastFragment extends Fragment {
         DatabaseReference mData = database.getReference("List_state/"+idUser);
         for(ItemState itemState :itemStateList){
             mData.child(itemState.getIdVanChuyen()).child(itemState.getItem().getId()).setValue(itemState);
+            reduceSL(itemState.getItem(),itemState.getItem().getSlm());
+            increaseSold(itemState.getItem(),itemState.getItem().getSlm());
             deleteItemCast(itemState);
         }
-        progressDialog.dismiss();
+        FragmentManager fragmentManager = requireFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame,new StateFragment()).commit();
     }
     private void deleteItemCast(ItemState itemState){
         DatabaseReference mData = database.getReference("List_cast/"+itemState.getId()+"/"+itemState.getItem().getId());
         mData.removeValue();
     }
-
+    private void reduceSL(Item item,int slBuy){
+        String id = item.getId();
+        int slc = item.getSL();
+        int slm = slc - slBuy;
+        DatabaseReference mData = FirebaseDatabase.getInstance().getReference("List_item/"+id);
+        mData.child("sl").setValue(slm);
+    }
+    private void increaseSold(Item item,int slBuy){
+        String id = item.getId();
+        int soldm = item.getSold()+slBuy;
+        DatabaseReference mData = FirebaseDatabase.getInstance().getReference("List_item/"+id);
+        mData.child("sold").setValue(soldm);
+    }
 }

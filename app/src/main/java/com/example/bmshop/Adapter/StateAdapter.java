@@ -37,19 +37,26 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.StateHolder>
 
     @Override
     public void onBindViewHolder(@NonNull StateHolder holder, int position) {
-        ItemState item = itemStateList.get(position);
-        Glide.with(holder.itemView.getContext()).load(item.getItem().getImg()).into(holder.img);
-        holder.tvName.setText(item.getItem().getName());
-        String time = date(item.getDate());
+        ItemState itemState = itemStateList.get(position);
+        Item item = itemState.getItem();
+        Glide.with(holder.itemView.getContext()).load(itemState.getItem().getImg()).into(holder.img);
+        holder.tvName.setText(itemState.getItem().getName());
+        String time = date(itemState.getDate());
         holder.tvDate.setText(time);
-        holder.tvMoney.setText(item.getItem().getCost());
-        holder.tvState.setText(item.getState());
+        holder.tvState.setText(itemState.getState());
+        int money = 0;
+        if(item.getFlashSale().isIs()){
+           money = item.getSlm()*item.getCost()-item.getSlm()*item.getCost()*item.getFlashSale().getPercent()/100;
+        }else{
+            money= item.getSlm()*item.getCost();
+        }
+        holder.tvMoney.setText(money+"k");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(holder.itemView.getContext(), DetailState.class);
-                intent.putExtra("itemState",item);
+                intent.putExtra("itemState",itemState);
                 holder.itemView.getContext().startActivity(intent);
             }
         });

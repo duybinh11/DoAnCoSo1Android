@@ -10,12 +10,22 @@ public class Item implements Serializable {
     String date;
     private int sold;
     private String img;
+    private String type;
     private int slm;
+    private FlashSale flashSale;
 
     public Item() {
     }
 
-    public Item(String id, String name, int cost, int SL, String date, int sold, String img) {
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Item(String id, String name, int cost, int SL, String date, int sold, String img, String type) {
         this.id = id;
         this.name = name;
         this.cost = cost;
@@ -23,8 +33,20 @@ public class Item implements Serializable {
         this.date = date;
         this.sold = sold;
         this.img = img;
+        this.type = type;
     }
 
+    public Item(String id, String name, int cost, int SL, String date, int sold, String img, String type,FlashSale flashSale) {
+        this.id = id;
+        this.name = name;
+        this.cost = cost;
+        this.SL = SL;
+        this.date = date;
+        this.sold = sold;
+        this.img = img;
+        this.type = type;
+        this.flashSale = flashSale;
+    }
 
     public String getId() {
         return id;
@@ -74,6 +96,7 @@ public class Item implements Serializable {
         this.sold = sold;
     }
 
+
     public String getImg() {
         return img;
     }
@@ -82,6 +105,35 @@ public class Item implements Serializable {
         this.img = img;
     }
 
+    public int getSlm() {
+        return slm;
+    }
 
+    public void setSlm(int slm) {
+        this.slm = slm;
+    }
 
+    public FlashSale getFlashSale() {
+        return flashSale;
+    }
+
+    public void setFlashSale(FlashSale flashSale) {
+        this.flashSale = flashSale;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", cost=" + cost +
+                ", SL=" + SL +
+                ", date='" + date + '\'' +
+                ", sold=" + sold +
+                ", img='" + img + '\'' +
+                ", type='" + type + '\'' +
+                ", slm=" + slm +
+                ", flashSale=" + flashSale +
+                '}';
+    }
 }

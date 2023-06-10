@@ -85,6 +85,25 @@
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"/>
                <TableLayout
+                   android:layout_marginTop="5dp"
+                   android:stretchColumns="1"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content">
+                   <TableRow>
+
+                       <TextView
+                           android:text="Thể Loại"
+                           android:textColor="@color/black"
+                           android:textSize="23sp" />
+
+                       <Spinner
+                           android:id="@+id/spinner"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_marginTop="6dp" />
+                   </TableRow>
+               </TableLayout>
+               <TableLayout
                    android:layout_marginBottom="20dp"
                    android:layout_marginTop="20dp"
                    android:stretchColumns="*"

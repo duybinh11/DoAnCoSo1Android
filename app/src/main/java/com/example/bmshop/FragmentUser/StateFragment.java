@@ -45,7 +45,7 @@ public class StateFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         anhXa(view);
-        setDate();
+        getData();
         initState();
     }
     public void anhXa(View view){
@@ -55,7 +55,7 @@ public class StateFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
     }
-    public void setDate(){
+    public void getData(){
         String idUser = mAuth.getUid();
         DatabaseReference mData = database.getReference("List_state/"+idUser);
         Query query = mData.orderByChild("date");

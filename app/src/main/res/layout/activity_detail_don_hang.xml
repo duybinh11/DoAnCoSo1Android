@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    android:background="#03A9F4"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivityUser.DetailState">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:background="@color/white"
+            app:cardCornerRadius="10dp">
+
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Thông Tin Người Đặt"
+            android:textColor="#5FF403"
+            android:textSize="25sp"
+            android:textStyle="bold|italic" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow>
+
+                <TextView
+                    android:text="Họ và Tên             "
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tvNameUser"
+                    android:text="Nguyễn Duy Bình"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="Địa Chỉ"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tvAddress"
+                    android:text="Huế"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="Phone"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tvPhone"
+                    android:text="0982038250"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+            </TableRow>
+
+
+
+            <TableRow>
+
+                <TextView
+                    android:text="Ngày Đặt"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tvDateBuy"
+                    android:text="10/01/2004"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+            </TableRow>
+        </TableLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Hóa Đơn"
+            android:textColor="#5FF403"
+            android:textSize="25sp"
+            android:textStyle="bold|italic" />
+
+        <TableLayout
+            android:stretchColumns="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow>
+
+                <TextView
+                    android:text="Trạng Thái            "
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp" />
+            </TableRow>
+            <TableRow>
+
+                <TextView
+                    android:text="Số Lượng "
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tvSlm"
+                    android:text="2"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="Thành Tiền"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tvMoney"
+                    android:text="1000k"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+            </TableRow>
+
+
+        </TableLayout>
+        <TableLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow>
+                <Button
+                    android:text="Lưu"
+                    android:id="@+id/btnSave"/>
+                <Button
+                    android:text="Xóa"
+                    android:id="@+id/btnDelete"/>
+                <Button
+                    android:visibility="gone"
+                    android:text="Back"
+                    android:id="@+id/btnBack"/>
+            </TableRow>
+        </TableLayout>
+
+
+
+
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

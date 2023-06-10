@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.example.bmshop.FragmentUser.CastFragment;
@@ -26,6 +28,7 @@ public class MainActivityUser extends AppCompatActivity {
         setContentView(R.layout.activity_main_user);
         anhXa();
         initFragment();
+        onClickImg();
     }
     private void anhXa(){
         imgSearch = findViewById(R.id.imgSearch);
@@ -57,6 +60,15 @@ public class MainActivityUser extends AppCompatActivity {
                     }
                 }
                 return true;
+            }
+        });
+    }
+    private void onClickImg(){
+        imgSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivityUser.this,Search.class);
+                startActivity(intent);
             }
         });
     }
